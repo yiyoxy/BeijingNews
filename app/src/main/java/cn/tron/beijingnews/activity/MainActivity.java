@@ -1,14 +1,20 @@
 package cn.tron.beijingnews.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.fragment.ContentFragment;
+import cn.tron.beijingnews.fragment.LeftMenuFragment;
 import cn.tron.beijingnews.utils.DensityUtil;
 
 public class MainActivity extends SlidingFragmentActivity {
+
+    public static final String LEFTMENU_TAG = "leftmenu_tag";
+    public static final String CONTENT_TAG = "content_tag";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,5 +38,24 @@ public class MainActivity extends SlidingFragmentActivity {
 
         // 6.设置主页面占的宽度dip(dp)
         slidingMenu.setBehindOffset(DensityUtil.dip2px(this, 200));
+
+        // 7.初始化Fragment
+        initFragment();
+    }
+
+    private void initFragment() {
+
+        // 1.得到事务
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        // 2.替换:左侧菜单和主页
+        ft.replace(R.id.fl_leftmenu, new LeftMenuFragment(), LEFTMENU_TAG);
+        ft.replace(R.id.fl_content, new ContentFragment(), CONTENT_TAG);
+
+        // 3.提交
+        ft.commit();
+
+        // 简写
+        // getSupportFragmentManager().beginTransaction().replace(R.id.fl_leftmenu,new LeftMenuFragment(), LEFTMENU_TAG).replace(R.id.fl_content,new ContentFragment(),  CONTENT_TAG).commit();
     }
 }
