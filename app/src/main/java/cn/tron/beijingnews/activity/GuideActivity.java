@@ -52,7 +52,7 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
 
-        ButterKnife.bind(this);
+        ButterKnife.bind(this); // 这里为何不要解绑?
 
         initData();
     }
