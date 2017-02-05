@@ -11,6 +11,8 @@ import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 
 import cn.tron.beijingnews.activity.GuideActivity;
+import cn.tron.beijingnews.activity.MainActivity;
+import cn.tron.beijingnews.utils.CacheUtils;
 
 import static cn.tron.beijingnews.R.layout.activity_welcome;
 
@@ -34,7 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     // 设置动画
-    private void setAnimation(){
+    private void setAnimation() {
         // 三个动画:旋转动画，渐变动画，缩放动画
         // 旋转动画：旋转中心，页面的中心，旋转度数：0~360
         RotateAnimation ra = new RotateAnimation(0, 360,
@@ -78,11 +80,18 @@ public class WelcomeActivity extends AppCompatActivity {
 
         }
 
-        // 当动画播放结束的时候回调
+        // 当动画播放完成的时候回调
         @Override
         public void onAnimationEnd(Animation animation) {
-            // Toast.makeText(WelcomeActivity.this, "动画播放完成!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(WelcomeActivity.this, GuideActivity.class);
+            boolean isOpenMain = CacheUtils.getBoolean(WelcomeActivity.this, "isOpenMain");
+            Intent intent = null;
+            if (isOpenMain) {
+                // 进入主界面
+                intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            } else {
+                // 进入引导界面
+                intent = new Intent(WelcomeActivity.this, GuideActivity.class);
+            }
             startActivity(intent);
             finish();
         }

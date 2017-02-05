@@ -1,5 +1,6 @@
 package cn.tron.beijingnews.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.utils.CacheUtils;
 import cn.tron.beijingnews.utils.DensityUtil;
 
 public class GuideActivity extends AppCompatActivity {
@@ -31,7 +33,13 @@ public class GuideActivity extends AppCompatActivity {
 
     @OnClick(R.id.btn_start_main)
     public void onClick() {
+        //1.保存参数，记录已经进入过引导页面，下次就不再进入引导界面
+        CacheUtils.putBoolean(this, "isOpenMain", true);
 
+        // 进入主界面
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private int[] ids = {R.drawable.guide_1, R.drawable.guide_2, R.drawable.guide_3};
