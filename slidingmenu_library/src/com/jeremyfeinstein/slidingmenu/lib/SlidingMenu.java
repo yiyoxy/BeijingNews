@@ -290,6 +290,10 @@ public class SlidingMenu extends RelativeLayout {
 	 */
 	public void attachToActivity(Activity activity, int slideStyle) {
 		attachToActivity(activity, slideStyle, false);
+
+		// Added to compensate for soft nav keys not sliding in Android 5.0+
+		if(slideStyle == SLIDING_WINDOW && Build.VERSION.SDK_INT >= 21)
+			setSystemUiVisibility(SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
 	}
 
 	/**
