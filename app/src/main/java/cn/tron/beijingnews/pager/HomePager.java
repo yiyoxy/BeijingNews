@@ -2,6 +2,7 @@ package cn.tron.beijingnews.pager;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -20,6 +21,8 @@ public class HomePager extends BasePager {
     @Override
     public void initData() {
         super.initData();
+
+        Log.e("TAG", "主页数据加载了");
 
         // 设置标题
         tv_title.setText("主页");
