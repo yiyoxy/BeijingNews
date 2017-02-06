@@ -33,6 +33,7 @@ public class ContentFragment extends BaseFragment {
     @BindView(R.id.rg_main)
     RadioGroup rgMain;
 
+    // 三个页面的集合
     private ArrayList<BasePager> basePagers;
 
     private Unbinder mUnbinder;
@@ -95,6 +96,11 @@ public class ContentFragment extends BaseFragment {
 
         // 孩子的视图和父类的FrameLayout结合
         basePagers.get(1).initData();
+    }
+
+    // 得到新闻中心
+    public NewsCenterPager getNewsCenterPager(){
+        return (NewsCenterPager) basePagers.get(1);
     }
 
     private class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -166,5 +172,4 @@ public class ContentFragment extends BaseFragment {
         super.onDestroyView();
         mUnbinder.unbind();
     }
-
 }

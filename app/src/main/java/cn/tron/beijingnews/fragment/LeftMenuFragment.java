@@ -14,6 +14,7 @@ import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.MainActivity;
 import cn.tron.beijingnews.base.BaseFragment;
 import cn.tron.beijingnews.bean.NewsCenterBean;
+import cn.tron.beijingnews.pager.NewsCenterPager;
 import cn.tron.beijingnews.utils.DensityUtil;
 
 /**
@@ -55,11 +56,19 @@ public class LeftMenuFragment extends BaseFragment {
                 mainActivity.getSlidingMenu().toggle(); // 开<->关
 
                 // 3.切换到对应的详情页面
-
+                switchPager(preposition);
             }
         });
 
         return listView;
+    }
+
+    // 根据位置切换到不同的详情页面
+    private void switchPager(int preposition) {
+        MainActivity mainActivity = (MainActivity) mContext;
+        ContentFragment contentFragment = mainActivity.getContentFragment();
+        NewsCenterPager newsCenterPager = contentFragment.getNewsCenterPager();
+        newsCenterPager.switchPager(preposition);
     }
 
     @Override
