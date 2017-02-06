@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.viewpagerindicator.TabPageIndicator;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,9 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     @BindView(R.id.viewpager)
     ViewPager viewpager;
 
+    @BindView(R.id.indicator)
+    TabPageIndicator indicator;
+
     public NewsMenuDetailPager(Context mContext, NewsCenterBean.DataBean dataBean) {
         super(mContext);
         this.childrenData = dataBean.getChildren();  // 12条
@@ -53,15 +58,27 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
 
         // 准备数据-页面
         tabDetailPagers = new ArrayList<>();
-        for(int i = 0; i < childrenData.size(); i++) {
+        // 根据有多少数据创建多少个TabDetailPager，并且把数据传入到对象中
+        for (int i = 0; i < childrenData.size(); i++) {
             tabDetailPagers.add(new TabDetailPager(mContext, childrenData.get(i)));
         }
 
         // 设置适配器
         viewpager.setAdapter(new MyPagerAdapter());
+
+        // 要在设置适配器之后
+        indicator.setViewPager(viewpager);
+
+        //监听页面的变化用TabPageIndicator
     }
 
     private class MyPagerAdapter extends PagerAdapter {
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return childrenData.get(position).getTitle();
+        }
+
         @Override
         public int getCount() {
             return tabDetailPagers.size();
