@@ -12,7 +12,7 @@ import cn.tron.beijingnews.bean.NewsCenterBean;
 /**
  * Created by ZZB27 on 2017.2.6.0006.
  */
-public class TabDetailPager extends MenuDetailBasePager {
+public class TabDetailPager extends MenuDetailBasePager{
 
     private final NewsCenterBean.DataBean.ChildrenBean childrenBean;
 
