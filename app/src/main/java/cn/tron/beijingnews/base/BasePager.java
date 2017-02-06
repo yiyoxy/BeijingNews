@@ -7,6 +7,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.activity.MainActivity;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -38,6 +39,17 @@ public class BasePager {
         ib_menu = (ImageButton) view.findViewById(R.id.ib_menu);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         fl_main = (FrameLayout) view.findViewById(R.id.fl_main);
+
+        // 菜单按钮设置监听
+        ib_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity) mContext;
+                // 开<->关
+                mainActivity.getSlidingMenu().toggle();
+            }
+        });
+
         return view;
     }
 

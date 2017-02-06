@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -38,6 +39,9 @@ public class NewsCenterPager extends BasePager {
         super.initData();
 
         Log.e("TAG", "新闻数据加载了");
+
+        // 显示菜单按钮
+        ib_menu.setVisibility(View.VISIBLE);
 
         // 设置标题
         tv_title.setText("新闻");
