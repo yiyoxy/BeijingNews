@@ -52,7 +52,7 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
 
-        ButterKnife.bind(this); // 这里为何不要解绑?
+        ButterKnife.bind(this); // 这里为何不要解绑? --> 当ButterKnife在onCreateView上进行绑定时，需要再onDestroyView上进行解绑
 
         initData();
     }

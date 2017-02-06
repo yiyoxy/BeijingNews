@@ -71,17 +71,17 @@ public class ContentFragment extends BaseFragment {
                 mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 
                 switch (checkedId) {
-                    case R.id.rb_home :
+                    case R.id.rb_home:
                         viewpager.setCurrentItem(0, false); // viewpager切换到不同页面的方法
                         break;
-                    case R.id.rb_news :
+                    case R.id.rb_news:
                         viewpager.setCurrentItem(1, false);
 
                         // 当切换到新闻的时候设置可以滑动
                         mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
                         break;
-                    case R.id.rb_setting :
+                    case R.id.rb_setting:
                         viewpager.setCurrentItem(2, false);
                         break;
                 }
@@ -99,7 +99,7 @@ public class ContentFragment extends BaseFragment {
     }
 
     // 得到新闻中心
-    public NewsCenterPager getNewsCenterPager(){
+    public NewsCenterPager getNewsCenterPager() {
         return (NewsCenterPager) basePagers.get(1);
     }
 
@@ -167,6 +167,11 @@ public class ContentFragment extends BaseFragment {
         basePagers.add(new SettingPager(mContext));
     }
 
+    /**
+     * Fragment的生命周期不同于Activity,当ButterKnife在onCreateView上进行绑定时，
+     * 需要再onDestroyView上进行解绑,ButterKnife.bind()方法提供了一个Unbinder返回值，
+     * 在onDestroyView上调用相关的unbind方法即可
+     */
     @Override
     public void onDestroyView() {
         super.onDestroyView();
