@@ -6,11 +6,18 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.List;
+
+import cn.tron.beijingnews.activity.MainActivity;
 import cn.tron.beijingnews.base.BasePager;
+import cn.tron.beijingnews.bean.NewsCenterBean;
+import cn.tron.beijingnews.fragment.LeftMenuFragment;
 import cn.tron.beijingnews.utils.Constants;
 
 /**
@@ -18,6 +25,9 @@ import cn.tron.beijingnews.utils.Constants;
  */
 
 public class NewsCenterPager extends BasePager {
+
+    // 左侧菜单对应的数据
+    private List<NewsCenterBean.DataBean> dataBeanList;
 
     public NewsCenterPager(Context context) {
         super(context);
@@ -52,6 +62,8 @@ public class NewsCenterPager extends BasePager {
             @Override
             public void onSuccess(String result) {
                 Log.e("TAG","请求成功=="+result);
+
+                processData(result);
             }
 
             @Override
@@ -69,5 +81,25 @@ public class NewsCenterPager extends BasePager {
                 Log.e("TAG","onFinished==");
             }
         });
+    }
+
+    // 解析数据; 绑定数据
+    private void processData(String json) {
+
+        // 1.解析数据:手动解析（用系统的Api解析）和第三方解析json的框架（Gson,fastjson）
+        NewsCenterBean centerBean = new Gson().fromJson(json, NewsCenterBean.class);
+        dataBeanList = centerBean.getData();
+
+        // 2.把新闻中心的数据传递给左侧菜单
+        MainActivity mainActivity = (MainActivity) mContext;
+
+        // 3.得到左侧菜单
+        LeftMenuFragment leftMenuFragment = mainActivity.getLeftMenuFragment();
+
+        // 4.调用leftMenuFragment的setData
+        leftMenuFragment.setData(dataBeanList);
+
+        // 5.绑定数据
+
     }
 }
