@@ -71,7 +71,7 @@ public class ContentFragment extends BaseFragment {
 
                 switch (checkedId) {
                     case R.id.rb_home :
-                        viewpager.setCurrentItem(0, false);
+                        viewpager.setCurrentItem(0, false); // viewpager切换到不同页面的方法
                         break;
                     case R.id.rb_news :
                         viewpager.setCurrentItem(1, false);
