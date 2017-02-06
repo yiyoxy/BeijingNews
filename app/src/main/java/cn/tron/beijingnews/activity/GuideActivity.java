@@ -126,8 +126,10 @@ public class GuideActivity extends AppCompatActivity {
              * 红点移动距离 = 间距 * 屏幕滑动的百分比
              * 红点移动的坐标 = 起始坐标 + 红点移动距离
              */
-            int marginLeft = (int) (leftMargin * positionOffset);
-            marginLeft = position * leftMargin + (int) (leftMargin * positionOffset);
+            //int marginLeft = (int) (leftMargin * positionOffset);
+            //marginLeft = position * leftMargin + (int) (leftMargin * positionOffset);
+            int marginLeft = (int) (leftMargin * (position   +  positionOffset));
+
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivRedPoint.getLayoutParams();
             params.leftMargin = marginLeft;
             ivRedPoint.setLayoutParams(params);
