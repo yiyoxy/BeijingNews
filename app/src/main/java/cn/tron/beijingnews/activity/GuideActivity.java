@@ -100,7 +100,6 @@ public class GuideActivity extends AppCompatActivity {
             return imageView;
         }
 
-
         @Override
         public boolean isViewFromObject(View view, Object object) {
             return view == object;

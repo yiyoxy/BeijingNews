@@ -1,7 +1,6 @@
 package cn.tron.beijingnews.fragment;
 
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
@@ -17,6 +16,7 @@ import cn.tron.beijingnews.base.BasePager;
 import cn.tron.beijingnews.pager.HomePager;
 import cn.tron.beijingnews.pager.NewsCenterPager;
 import cn.tron.beijingnews.pager.SettingPager;
+import cn.tron.beijingnews.view.NoScrollViewPager;
 
 /**
  * Created by ZZB27 on 2017.2.5.0005.
@@ -25,7 +25,7 @@ import cn.tron.beijingnews.pager.SettingPager;
 public class ContentFragment extends BaseFragment {
 
     @BindView(R.id.viewpager)
-    ViewPager viewpager;
+    NoScrollViewPager viewpager;
     @BindView(R.id.rg_main)
     RadioGroup rgMain;
 
@@ -51,7 +51,7 @@ public class ContentFragment extends BaseFragment {
         // 设置viewpager的适配器
         setAdapter();
 
-        // 设置监听
+        // 设置监听RadioGroup状态选中的监听
         initListener();
 
     }
@@ -74,6 +74,7 @@ public class ContentFragment extends BaseFragment {
             }
         });
 
+        // 默认选中新闻页
         rgMain.check(R.id.rb_news);
     }
 
@@ -99,7 +100,7 @@ public class ContentFragment extends BaseFragment {
             // 代表不同页面的实例
             View rootView = basePager.rootView;
 
-            // 调用initData
+            // 调用initData; 孩子的视图和父类的FrameLayout结合
             basePager.initData();
 
             container.addView(rootView);

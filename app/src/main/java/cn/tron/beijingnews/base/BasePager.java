@@ -12,7 +12,7 @@ import cn.tron.beijingnews.R;
  * Created by ZZB27 on 2017.2.6.0006.
  * <p>
  * 视图的基类: HomePager、NewsCenterPager、SettingPager都继承该类
- * 在子类中重写initData方法，实现子类的视图，并且视图在该方法中和基类的Fragmelayout布局结合在一起
+ * 在子类中重写initData方法，实现子类的视图，并且视图在该方法中和基类的Framelayout布局结合在一起
  */
 
 public class BasePager {
