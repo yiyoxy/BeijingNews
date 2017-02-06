@@ -29,4 +29,6 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile project(':slidingmenu_library')
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'org.xutils:xutils:3.3.40'
 }
