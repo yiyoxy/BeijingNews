@@ -124,7 +124,7 @@ public class TabDetailPager extends MenuDetailBasePager {
                 // 如果不包含才保存
                 if(!idArray.contains(ids+"")) {
                     // 保存点击过的item的对应的id
-                    CacheUtils.putString(mContext, ID_ARRAY, idArray + ids + "");
+                    CacheUtils.putString(mContext, ID_ARRAY, idArray + ids + ",");
 
                     // 刷新适配器 --> getCount-->getView
                     adapter.notifyDataSetChanged();
