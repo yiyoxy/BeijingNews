@@ -1,6 +1,7 @@
 package cn.tron.beijingnews.detailpager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.activity.NewsDetailActivity;
 import cn.tron.beijingnews.adapter.TabDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
@@ -129,6 +131,11 @@ public class TabDetailPager extends MenuDetailBasePager {
                     // 刷新适配器 --> getCount-->getView
                     adapter.notifyDataSetChanged();
                 }
+
+                // 跳转到新闻浏览界面
+                Intent intent = new Intent(mContext, NewsDetailActivity.class);
+                intent.putExtra("url", Constants.BASE_URL + newsBean.getUrl());
+                mContext.startActivity(intent);
             }
         });
 
