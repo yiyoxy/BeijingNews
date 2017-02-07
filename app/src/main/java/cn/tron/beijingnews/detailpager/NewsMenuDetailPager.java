@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.activity.MainActivity;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 
@@ -75,6 +77,31 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
         indicator.setViewPager(viewpager);
 
         //监听页面的变化用TabPageIndicator
+        indicator.setOnPageChangeListener(new MyOnPageChangeListener());
+    }
+
+    class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            MainActivity mainActivity = (MainActivity) mContext;
+            if (position == 0) {
+                // 可以把左侧菜单拖拽出来
+                mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+            } else {
+                // 不能把左侧菜单拖拽出来
+                mainActivity.getSlidingMenu().setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
     }
 
     @OnClick(R.id.ib_news_menu_detail_next_tab)
