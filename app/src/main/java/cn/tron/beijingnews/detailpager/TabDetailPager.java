@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.extras.SoundPullEventListener;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -91,6 +92,13 @@ public class TabDetailPager extends MenuDetailBasePager {
 
         // 注意方法是addHeaderView
         listview.addHeaderView(headerView);
+
+        // 添加刷新的声音
+        SoundPullEventListener<ListView> soundListener = new SoundPullEventListener<ListView>(mContext);
+        soundListener.addSoundEvent(PullToRefreshBase.State.PULL_TO_REFRESH, R.raw.pull_event);
+        soundListener.addSoundEvent(PullToRefreshBase.State.RESET, R.raw.reset_sound);
+        soundListener.addSoundEvent(PullToRefreshBase.State.REFRESHING, R.raw.refreshing_sound);
+        pullRefreshListView.setOnPullEventListener(soundListener);
 
         // 设置下拉和上拉刷新
         pullRefreshListView.setOnRefreshListener(new MyOnRefreshListener2());
