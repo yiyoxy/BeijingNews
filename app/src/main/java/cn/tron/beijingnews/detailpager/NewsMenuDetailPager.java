@@ -104,6 +104,7 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
         }
     }
 
+    // 点击切换到下一个页签
     @OnClick(R.id.ib_news_menu_detail_next_tab)
     public void onClick() {
         indicator.setCurrentItem(viewpager.getCurrentItem() + 1);
