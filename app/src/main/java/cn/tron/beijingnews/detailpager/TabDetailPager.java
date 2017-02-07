@@ -35,6 +35,7 @@ import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.TabDetailPagerBean;
 import cn.tron.beijingnews.utils.Constants;
 import cn.tron.beijingnews.utils.DensityUtil;
+import cn.tron.beijingnews.view.HorizontalScrollViewPager;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -48,7 +49,7 @@ public class TabDetailPager extends MenuDetailBasePager {
 
     ListView listview;
 
-    ViewPager viewpager;
+    HorizontalScrollViewPager viewpager;
     TextView tvTitle;
     LinearLayout llGroupPoint;
 
@@ -86,7 +87,7 @@ public class TabDetailPager extends MenuDetailBasePager {
 
         View headerView = View.inflate(mContext, R.layout.header_view, null);
 
-        viewpager = (ViewPager) headerView.findViewById(R.id.viewpager);
+        viewpager = (HorizontalScrollViewPager) headerView.findViewById(R.id.viewpager);
         tvTitle = (TextView) headerView.findViewById(R.id.tv_title);
         llGroupPoint = (LinearLayout) headerView.findViewById(R.id.ll_group_point);
 
