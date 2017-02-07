@@ -5,6 +5,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.viewpagerindicator.TabPageIndicator;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
@@ -36,6 +38,9 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
 
     @BindView(R.id.indicator)
     TabPageIndicator indicator;
+
+    @BindView(R.id.ib_news_menu_detail_next_tab)
+    ImageButton ibNewsMenuDetailNextTab;
 
     public NewsMenuDetailPager(Context mContext, NewsCenterBean.DataBean dataBean) {
         super(mContext);
@@ -70,6 +75,11 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
         indicator.setViewPager(viewpager);
 
         //监听页面的变化用TabPageIndicator
+    }
+
+    @OnClick(R.id.ib_news_menu_detail_next_tab)
+    public void onClick() {
+        indicator.setCurrentItem(viewpager.getCurrentItem() + 1);
     }
 
     private class MyPagerAdapter extends PagerAdapter {

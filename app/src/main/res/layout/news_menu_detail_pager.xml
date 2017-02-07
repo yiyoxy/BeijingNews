@@ -4,12 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--ViewPagerIndiactor-->
-    <com.viewpagerindicator.TabPageIndicator
-        android:id="@+id/indicator"
-        android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--ViewPagerIndiactor-->
+        <com.viewpagerindicator.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/ib_news_menu_detail_next_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:padding="5dp"
+            android:src="@drawable/news_cate_arr" />
+
+    </LinearLayout>
+
 
     <!--ViewPager-->
     <android.support.v4.view.ViewPager
