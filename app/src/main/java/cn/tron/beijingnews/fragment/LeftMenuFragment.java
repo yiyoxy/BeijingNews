@@ -84,6 +84,9 @@ public class LeftMenuFragment extends BaseFragment {
         // 设置适配器
         adapter = new LeftMenuFragmentAdapter();
         listView.setAdapter(adapter);
+
+        // 默认选中新闻详情页面
+        switchPager(preposition);
     }
 
     private class LeftMenuFragmentAdapter extends BaseAdapter {

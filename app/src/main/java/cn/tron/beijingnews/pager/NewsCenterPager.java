@@ -66,7 +66,7 @@ public class NewsCenterPager extends BasePager {
         getDataFromNet();
 
         // 默认选中新闻详情页面
-        switchPager(0);
+        // switchPager(0);
 
     }
 
