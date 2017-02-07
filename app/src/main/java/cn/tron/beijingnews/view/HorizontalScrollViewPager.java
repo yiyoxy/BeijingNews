@@ -24,7 +24,10 @@ public class HorizontalScrollViewPager extends ViewPager {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN :
-                // 让父亲控件不拦截当前控件的事件
+                /**
+                 * true:要求父元素，不拦截当前控件的事件
+                 * false:要求父元素，拦截当前控件的事件
+                 */
                 getParent().requestDisallowInterceptTouchEvent(true);
 
                 // 1.记录起始坐标

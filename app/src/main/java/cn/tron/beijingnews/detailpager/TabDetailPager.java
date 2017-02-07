@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,6 +34,7 @@ import cn.tron.beijingnews.adapter.TabDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.TabDetailPagerBean;
+import cn.tron.beijingnews.utils.CacheUtils;
 import cn.tron.beijingnews.utils.Constants;
 import cn.tron.beijingnews.utils.DensityUtil;
 import cn.tron.beijingnews.view.HorizontalScrollViewPager;
@@ -41,6 +43,8 @@ import cn.tron.beijingnews.view.HorizontalScrollViewPager;
  * Created by ZZB27 on 2017.2.6.0006.
  */
 public class TabDetailPager extends MenuDetailBasePager {
+
+    public static final String ID_ARRAY = "id_array";
 
     private final NewsCenterBean.DataBean.ChildrenBean childrenBean;
 
@@ -103,6 +107,30 @@ public class TabDetailPager extends MenuDetailBasePager {
 
         // 设置下拉和上拉刷新
         pullRefreshListView.setOnRefreshListener(new MyOnRefreshListener2());
+
+        // 设置listview的item点击事件
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // 得到Bean对象
+                TabDetailPagerBean.DataBean.NewsBean newsBean = news.get(position - 2);
+                String title = newsBean.getTitle();
+                int ids = newsBean.getId();
+
+                // 获取是否已经存在, 如果不存在才保存
+                String idArray = CacheUtils.getString(mContext, ID_ARRAY); //
+
+                // 如果不包含才保存
+                if(!idArray.contains(ids+"")) {
+                    // 保存点击过的item的对应的id
+                    CacheUtils.putString(mContext, ID_ARRAY, idArray + ids + "");
+
+                    // 刷新适配器 --> getCount-->getView
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
 
         return view;
     }

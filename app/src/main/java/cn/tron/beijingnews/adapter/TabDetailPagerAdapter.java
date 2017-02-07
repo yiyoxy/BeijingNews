@@ -1,6 +1,7 @@
 package cn.tron.beijingnews.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,7 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.bean.TabDetailPagerBean;
+import cn.tron.beijingnews.utils.CacheUtils;
 import cn.tron.beijingnews.utils.Constants;
+
+import static cn.tron.beijingnews.detailpager.TabDetailPager.ID_ARRAY;
 
 /**
  * Created by ZZB27 on 2017.2.7.0007.
@@ -71,6 +75,16 @@ public class TabDetailPagerAdapter extends BaseAdapter {
                 .placeholder(R.drawable.news_pic_default)
                 .error(R.drawable.news_pic_default)
                 .into(viewHolder.ivIcon);
+
+        // 重新取出保存的id数组
+        String idArray = CacheUtils.getString(mContext, ID_ARRAY);
+        if(idArray.contains(newsBean.getId() + "")) {
+            // 该条被点击过 -> 设置灰色字体
+            viewHolder.tvTitle.setTextColor(Color.GRAY);
+        } else {
+            // 设置黑色
+            viewHolder.tvTitle.setTextColor(Color.BLACK);
+        }
 
         return convertView;
     }
