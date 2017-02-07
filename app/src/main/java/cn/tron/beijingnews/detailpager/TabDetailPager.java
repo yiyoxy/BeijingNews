@@ -29,6 +29,7 @@ import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.TabDetailPagerBean;
 import cn.tron.beijingnews.utils.Constants;
+import cn.tron.beijingnews.utils.DensityUtil;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -53,6 +54,8 @@ public class TabDetailPager extends MenuDetailBasePager {
 
     // 顶部轮播图的数据
     private List<TabDetailPagerBean.DataBean.TopnewsBean> topnews;
+
+    private int preposition;
 
     public TabDetailPager(Context mContext, NewsCenterBean.DataBean.ChildrenBean childrenBean) {
         super(mContext);
@@ -134,8 +137,34 @@ public class TabDetailPager extends MenuDetailBasePager {
 
         // 监听viewpager页面的变化
         viewpager.addOnPageChangeListener(new MyOnPageChangeListener());
-        // 设置第一个为默认
+
+        // 设置topnews第一个新闻视图的标题
         tvTitle.setText(topnews.get(0).getTitle());
+
+        // 把之前的指示点(视图)移除
+        llGroupPoint.removeAllViews();
+
+        // 添加红点
+        for(int i = 0; i < topnews.size(); i++) {
+            // 添加到线性布局
+            ImageView point = new ImageView(mContext);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-2, ViewGroup.LayoutParams.WRAP_CONTENT); // WRAP_CONTENT = -2
+
+            if(i != 0) {
+                // 设置距离左边的距离(指示点间距)
+                params.leftMargin = DensityUtil.dip2px(mContext, 8);
+                point.setEnabled(false);
+            } else {
+                point.setEnabled(true);
+            }
+
+            point.setLayoutParams(params);
+
+            // 设置图片背景选择器
+            point.setBackgroundResource(R.drawable.point_selector);
+
+            llGroupPoint.addView(point);
+        }
     }
 
     private class MyPagerAdapter extends PagerAdapter {
@@ -178,6 +207,11 @@ public class TabDetailPager extends MenuDetailBasePager {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            //动态改变指示点
+            llGroupPoint.getChildAt(preposition).setEnabled(false); // 上一个点变灰色
+            llGroupPoint.getChildAt(position).setEnabled(true); // 当前的点变红色
+
+            preposition = position;
         }
 
         @Override
