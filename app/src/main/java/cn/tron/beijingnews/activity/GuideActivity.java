@@ -162,4 +162,5 @@ public class GuideActivity extends AppCompatActivity {
             leftMargin = llGroupPoint.getChildAt(1).getLeft() - llGroupPoint.getChildAt(0).getLeft();
         }
     }
+    
 }

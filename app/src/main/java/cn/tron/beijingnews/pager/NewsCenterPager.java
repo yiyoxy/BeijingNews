@@ -1,12 +1,9 @@
 package cn.tron.beijingnews.pager;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -59,24 +56,18 @@ public class NewsCenterPager extends BasePager {
         // 设置标题
         tv_title.setText("新闻");
 
-        // 实例视图
-        TextView textView = new TextView(mContext);
-        textView.setTextSize(20);
-        textView.setGravity(Gravity.CENTER);
-        textView.setText("新闻中心");
-        textView.setTextColor(Color.RED);
-
-        // 和父类的FrameLayout结合
-        fl_main.addView(textView);
-
         String saveJson = CacheUtils.getString(mContext, Constants.NEWSCENTER_PAGER_URL);
 
-        if(!TextUtils.isEmpty(saveJson)) {
+        if (!TextUtils.isEmpty(saveJson)) {
             processData(saveJson);
         }
 
         // 联网请求数据
         getDataFromNet();
+
+        // 默认选中新闻详情页面
+        switchPager(0);
+
     }
 
     private void getDataFromNet() {
@@ -161,6 +152,7 @@ public class NewsCenterPager extends BasePager {
 
     /**
      * 使用系统的api手动解析json数据
+     *
      * @param json
      * @return
      */
@@ -213,7 +205,7 @@ public class NewsCenterPager extends BasePager {
                         itemBean.setChildren(childrenBeans);
                         for (int j = 0; j < children.length(); j++) {
 
-                            NewsCenterBean.DataBean.ChildrenBean  childrenBean = new NewsCenterBean.DataBean.ChildrenBean();
+                            NewsCenterBean.DataBean.ChildrenBean childrenBean = new NewsCenterBean.DataBean.ChildrenBean();
                             //添加到集合中
                             childrenBeans.add(childrenBean);
                             JSONObject childenObje = (JSONObject) children.get(j);
