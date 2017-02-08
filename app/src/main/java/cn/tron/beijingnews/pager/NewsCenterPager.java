@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -148,6 +149,19 @@ public class NewsCenterPager extends BasePager {
         fl_main.removeAllViews();
 
         fl_main.addView(rootView);
+
+        // 显示切换视图的ImageButton
+        if (preposition == 2) {
+            ib_switch.setVisibility(View.VISIBLE);
+            ib_switch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mContext, "切换按钮", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            ib_switch.setVisibility(View.GONE);
+        }
     }
 
     /**

@@ -24,6 +24,7 @@ public class BasePager {
     public ImageButton ib_menu;
     public TextView tv_title;
     public FrameLayout fl_main;
+    public ImageButton ib_switch;
 
     // 代表各个页面的实例
     public View rootView;
@@ -34,11 +35,13 @@ public class BasePager {
         rootView = initView();
     }
 
+    // 把内置标题栏和FrameLayout实例化
     private View initView() {
         View view = View.inflate(mContext, R.layout.basepager, null);
         ib_menu = (ImageButton) view.findViewById(R.id.ib_menu);
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         fl_main = (FrameLayout) view.findViewById(R.id.fl_main);
+        ib_switch = (ImageButton) view.findViewById(R.id.ib_switch);
 
         // 菜单按钮设置监听
         ib_menu.setOnClickListener(new View.OnClickListener() {
