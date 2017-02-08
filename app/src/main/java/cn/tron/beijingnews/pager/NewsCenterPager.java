@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -125,7 +124,7 @@ public class NewsCenterPager extends BasePager {
 
         menuDetailBasePagers.add(new NewsMenuDetailPager(mainActivity, dataBeanList.get(0))); //新闻详情页面
         menuDetailBasePagers.add(new TopicMenuDetailPager(mainActivity)); //专题详情页面
-        menuDetailBasePagers.add(new PhotosMenuDetailPager(mainActivity)); //组图详情页面
+        menuDetailBasePagers.add(new PhotosMenuDetailPager(mainActivity, dataBeanList.get(2))); //组图详情页面
         menuDetailBasePagers.add(new InteractMenuDetailPager(mainActivity)); //互动详情页面
 
         // 4.调用leftMenuFragment的setData
@@ -156,7 +155,10 @@ public class NewsCenterPager extends BasePager {
             ib_switch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, "切换按钮", Toast.LENGTH_SHORT).show();
+                    // 获取组图页面的实例
+                    PhotosMenuDetailPager photosMenuDetailPager = (PhotosMenuDetailPager) menuDetailBasePagers.get(2);
+                    // 调用切换的方法
+                    photosMenuDetailPager.switchListGrid(ib_switch);
                 }
             });
         } else {
