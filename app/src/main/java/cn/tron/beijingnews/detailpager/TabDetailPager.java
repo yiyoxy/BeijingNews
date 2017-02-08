@@ -2,10 +2,13 @@ package cn.tron.beijingnews.detailpager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -76,6 +79,8 @@ public class TabDetailPager extends MenuDetailBasePager {
     private List<TabDetailPagerBean.DataBean.TopnewsBean> topnews;
 
     private int preposition;
+
+    private InternalHandler handler;
 
     public TabDetailPager(Context mContext, NewsCenterBean.DataBean.ChildrenBean childrenBean) {
         super(mContext);
@@ -306,9 +311,42 @@ public class TabDetailPager extends MenuDetailBasePager {
 
             // 简写: news.addAll(pagerBean.getData().getNews());
 
+            // 刷新适配器
             adapter.notifyDataSetChanged();
         }
 
+        // 添加Handler
+        if (handler == null) {
+            handler = new InternalHandler();
+        }
+
+        // 移除消息
+        handler.removeCallbacksAndMessages(null);
+
+        // 发送延时消息
+        handler.postDelayed(new MyRunnable(), 2000);
+
+    }
+
+    class InternalHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            // 接收消息执行这里, viewpager切换到下一个页面
+            int item = (viewpager.getCurrentItem() + 1) % topnews.size();  // getCurrentItem -> Index of currently displayed page.当前页面的下标
+            viewpager.setCurrentItem(item);
+            handler.postDelayed(new MyRunnable(), 4000);
+        }
+    }
+
+    class MyRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            handler.sendEmptyMessage(0);
+        }
     }
 
     private class MyPagerAdapter extends PagerAdapter {
@@ -343,6 +381,25 @@ public class TabDetailPager extends MenuDetailBasePager {
             // 添加到viewpager
             container.addView(imageView);
 
+            // imageview触摸事件的监听: 滑动图片时消息的移除与发送
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            // 按下的时候移除所有消息
+                            handler.removeCallbacksAndMessages(null);
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            // 抬起的时候移除所有消息并发送新的消息
+                            handler.removeCallbacksAndMessages(null);
+                            handler.postDelayed(new MyRunnable(), 4000);
+                            break;
+                    }
+                    return true;
+                }
+            });
+
             return imageView;
         }
     }
@@ -363,8 +420,18 @@ public class TabDetailPager extends MenuDetailBasePager {
             tvTitle.setText(topnews.get(position).getTitle());
         }
 
+        // viewpager状态变化时回调
         @Override
         public void onPageScrollStateChanged(int state) {
+            if (state == ViewPager.SCROLL_STATE_DRAGGING) { // 拖拽
+                handler.removeCallbacksAndMessages(null);
+            } else if (state == ViewPager.SCROLL_STATE_IDLE) { // 停顿, 闲置
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(new MyRunnable(), 4000);
+            } else if (state == ViewPager.SCROLL_STATE_SETTLING) { // 惯性
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(new MyRunnable(), 4000);
+            }
 
         }
     }
