@@ -177,4 +177,5 @@ public class ContentFragment extends BaseFragment {
         super.onDestroyView();
         mUnbinder.unbind();
     }
+
 }

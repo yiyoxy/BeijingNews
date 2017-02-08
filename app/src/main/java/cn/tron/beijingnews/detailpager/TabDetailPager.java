@@ -82,7 +82,6 @@ public class TabDetailPager extends MenuDetailBasePager {
         this.childrenBean = childrenBean;
     }
 
-
     @Override
     public View initView() {
         // 视图
@@ -124,7 +123,7 @@ public class TabDetailPager extends MenuDetailBasePager {
                 String idArray = CacheUtils.getString(mContext, ID_ARRAY); //
 
                 // 如果不包含才保存
-                if(!idArray.contains(ids+"")) {
+                if (!idArray.contains(ids + "")) {
                     // 保存点击过的item的对应的id
                     CacheUtils.putString(mContext, ID_ARRAY, idArray + ids + ",");
 
@@ -136,6 +135,12 @@ public class TabDetailPager extends MenuDetailBasePager {
                 Intent intent = new Intent(mContext, NewsDetailActivity.class);
                 intent.putExtra("url", Constants.BASE_URL + newsBean.getUrl());
                 mContext.startActivity(intent);
+
+                // 测试
+                // MainActivity m = (MainActivity) mContext;
+                // m.startActivity(intent);
+                // m.finish();
+
             }
         });
 

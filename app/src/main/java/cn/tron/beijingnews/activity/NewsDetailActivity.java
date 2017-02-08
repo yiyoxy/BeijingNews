@@ -1,5 +1,7 @@
 package cn.tron.beijingnews.activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -34,6 +36,7 @@ public class NewsDetailActivity extends AppCompatActivity {
     ProgressBar progressbar;
 
     private String url;
+    private WebSettings webSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,9 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         // webview的使用
         webview.loadUrl(url);
+        // webview.loadUrl("http://android.atguigu.com");
 
-        WebSettings webSettings = webview.getSettings();
+        webSettings = webview.getSettings();
 
         // 支持javascript脚本语言
         webSettings.setJavaScriptEnabled(true);
@@ -62,8 +66,14 @@ public class NewsDetailActivity extends AppCompatActivity {
         // 支持双击页面变大变小: 需要页面支持
         webSettings.setUseWideViewPort(true);
 
+        // 默认设置正常字体
+        // webSettings.setTextSize(WebSettings.TextSize.NORMAL);
+        webSettings.setTextZoom(100);
+
         // 设置监听
         webview.setWebViewClient(new WebViewClient() {
+
+            // 当网页加载完成的时候回调
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -80,10 +90,64 @@ public class NewsDetailActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.ib_textsize:
-                Toast.makeText(NewsDetailActivity.this, "设置文字大小", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(NewsDetailActivity.this, "设置文字大小", Toast.LENGTH_SHORT).show();
+                // 弹出设置对话框
+                showChangeTextSizeDialog();
                 break;
             case R.id.ib_share:
                 Toast.makeText(NewsDetailActivity.this, "分享", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private int tempSize = 2; // 默认的字体为正常字体
+    private int realSize = tempSize;
+
+    // 改变文字大小
+    private void showChangeTextSizeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String[] items = {"超大号字体", "大号字体", "正常字体", "小号字体", "超小号字体"};
+        builder.setTitle("设置字体大小");
+        builder.setSingleChoiceItems(items, realSize, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 选中的字体大小(0~4)
+                tempSize = which;
+            }
+        });
+        builder.setNegativeButton("取消", null);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // 点击确定执行这里
+                realSize = tempSize;
+                changeText(realSize);
+            }
+        });
+        builder.show();
+    }
+
+    private void changeText(int realSize) {
+        switch (realSize) {
+            case 0:
+                // webSettings.setTextSize(WebSettings.TextSize.LARGEST); // 200
+                webSettings.setTextZoom(200);
+                break;
+            case 1:
+                // webSettings.setTextSize(WebSettings.TextSize.LARGER); // 150
+                webSettings.setTextZoom(150);
+                break;
+            case 2:
+                // webSettings.setTextSize(WebSettings.TextSize.NORMAL); // 100
+                webSettings.setTextZoom(100);
+                break;
+            case 3:
+                // webSettings.setTextSize(WebSettings.TextSize.SMALLER); // 75
+                webSettings.setTextZoom(75);
+                break;
+            case 4:
+                // webSettings.setTextSize(WebSettings.TextSize.SMALLEST); // 50
+                webSettings.setTextZoom(50);
                 break;
         }
     }
