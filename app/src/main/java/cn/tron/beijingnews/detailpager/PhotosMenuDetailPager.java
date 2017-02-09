@@ -1,6 +1,8 @@
 package cn.tron.beijingnews.detailpager;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +41,9 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
     @BindView(R.id.gridview)
     GridView gridview;*/
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
@@ -60,6 +65,22 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         // 注入view中,别忘记
         ButterKnife.bind(this, view);
 
+        // 设置下拉多少距离起作用
+        swipeRefreshLayout.setDistanceToTriggerSync(100);
+
+        // 设置不同颜色, 可以设置多个颜色
+        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN, Color.BLACK, Color.WHITE, Color.YELLOW);
+
+        // 设置背景颜色
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.holo_blue_bright);
+
+        // 设置下拉刷新的监听
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getDataFromNet(url);
+            }
+        });
         return view;
     }
 
@@ -71,10 +92,10 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         url = Constants.BASE_URL + dataBean.getUrl();
         Log.e("TAG", "组图url==" + url);
 
-        getDataFromNet();
+        getDataFromNet(url);
     }
 
-    private void getDataFromNet() {
+    private void getDataFromNet(String url) {
         RequestParams params = new RequestParams(url);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
@@ -82,6 +103,9 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
                 Log.e("TAG", "请求成功==" + result);
 
                 processData(result);
+
+                //隐藏刷新按钮 : Whether or not the view should show refresh progress
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
