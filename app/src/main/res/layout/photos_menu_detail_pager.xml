@@ -9,14 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:listSelector="@color/default_title_indicator_footer_color"></ListView>
+        android:listSelector="@drawable/timer_list_selector"></ListView>
 
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@null"
-        android:listSelector="@color/default_title_indicator_footer_color"
+        android:listSelector="@drawable/timer_list_selector"
         android:numColumns="2"
         android:visibility="gone"></GridView>
 
