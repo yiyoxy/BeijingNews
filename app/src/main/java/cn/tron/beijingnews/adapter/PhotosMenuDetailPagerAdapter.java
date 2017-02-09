@@ -15,10 +15,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.PicassoSampleActivity;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
-import cn.tron.beijingnews.utils.Constants;
 
 /**
  * Created by ZZB27 on 2017.2.9.0009.

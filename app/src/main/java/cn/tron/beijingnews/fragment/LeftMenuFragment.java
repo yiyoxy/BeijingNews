@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cn.tron.baselibrary.utils.DensityUtil;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.MainActivity;
 import cn.tron.beijingnews.base.BaseFragment;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.pager.NewsCenterPager;
-import cn.tron.beijingnews.utils.DensityUtil;
 
 /**
  * Created by ZZB27 on 2017.2.5.0005.

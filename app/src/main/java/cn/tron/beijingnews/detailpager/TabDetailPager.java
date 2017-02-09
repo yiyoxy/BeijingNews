@@ -33,15 +33,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.tron.baselibrary.utils.CacheUtils;
+import cn.tron.baselibrary.utils.Constants;
+import cn.tron.baselibrary.utils.DensityUtil;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.NewsDetailActivity;
 import cn.tron.beijingnews.adapter.TabDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.TabDetailPagerBean;
-import cn.tron.beijingnews.utils.CacheUtils;
-import cn.tron.beijingnews.utils.Constants;
-import cn.tron.beijingnews.utils.DensityUtil;
 import cn.tron.beijingnews.view.HorizontalScrollViewPager;
 
 /**

@@ -1,4 +1,4 @@
-package cn.tron.beijingnews.utils;
+package cn.tron.baselibrary.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

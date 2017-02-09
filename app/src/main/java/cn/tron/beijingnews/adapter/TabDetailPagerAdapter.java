@@ -15,10 +15,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.tron.baselibrary.utils.CacheUtils;
+import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.bean.TabDetailPagerBean;
-import cn.tron.beijingnews.utils.CacheUtils;
-import cn.tron.beijingnews.utils.Constants;
 
 import static cn.tron.beijingnews.detailpager.TabDetailPager.ID_ARRAY;
 

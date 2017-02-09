@@ -17,6 +17,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.tron.baselibrary.utils.CacheUtils;
+import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.activity.MainActivity;
 import cn.tron.beijingnews.base.BasePager;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
@@ -26,8 +28,6 @@ import cn.tron.beijingnews.detailpager.NewsMenuDetailPager;
 import cn.tron.beijingnews.detailpager.PhotosMenuDetailPager;
 import cn.tron.beijingnews.detailpager.TopicMenuDetailPager;
 import cn.tron.beijingnews.fragment.LeftMenuFragment;
-import cn.tron.beijingnews.utils.CacheUtils;
-import cn.tron.beijingnews.utils.Constants;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.

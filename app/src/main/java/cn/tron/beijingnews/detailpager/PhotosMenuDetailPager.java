@@ -21,12 +21,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.adapter.PhotosMenuDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
-import cn.tron.beijingnews.utils.Constants;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.

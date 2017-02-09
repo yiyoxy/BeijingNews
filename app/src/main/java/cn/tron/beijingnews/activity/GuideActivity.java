@@ -16,9 +16,9 @@ import android.widget.RelativeLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.tron.baselibrary.utils.CacheUtils;
+import cn.tron.baselibrary.utils.DensityUtil;
 import cn.tron.beijingnews.R;
-import cn.tron.beijingnews.utils.CacheUtils;
-import cn.tron.beijingnews.utils.DensityUtil;
 
 public class GuideActivity extends AppCompatActivity {
 

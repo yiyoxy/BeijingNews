@@ -1,4 +1,4 @@
-package cn.tron.beijingnews.utils;
+package cn.tron.baselibrary.utils;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.

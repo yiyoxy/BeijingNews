@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentTransaction;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
+import cn.tron.baselibrary.utils.DensityUtil;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.fragment.ContentFragment;
 import cn.tron.beijingnews.fragment.LeftMenuFragment;
-import cn.tron.beijingnews.utils.DensityUtil;
 
 public class MainActivity extends SlidingFragmentActivity {
 

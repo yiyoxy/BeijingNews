@@ -10,9 +10,9 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
 
+import cn.tron.baselibrary.utils.CacheUtils;
 import cn.tron.beijingnews.activity.GuideActivity;
 import cn.tron.beijingnews.activity.MainActivity;
-import cn.tron.beijingnews.utils.CacheUtils;
 
 import static cn.tron.beijingnews.R.layout.activity_welcome;
 

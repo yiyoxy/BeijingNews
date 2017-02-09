@@ -84,6 +84,7 @@ public class TopicMenuDetailPager extends MenuDetailBasePager {
 
         // 要在设置适配器之后
         tabLayout.setupWithViewPager(viewpager);
+        // 设置滑动的模式
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         //注意以后监听页面的变化 ，TabPageIndicator监听页面的变化
