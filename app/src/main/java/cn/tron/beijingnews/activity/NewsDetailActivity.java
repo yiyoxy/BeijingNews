@@ -105,8 +105,10 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     // 改变文字大小
     private void showChangeTextSizeDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
         String[] items = {"超大号字体", "大号字体", "正常字体", "小号字体", "超小号字体"};
+
         builder.setTitle("设置字体大小");
         builder.setSingleChoiceItems(items, realSize, new DialogInterface.OnClickListener() {
             @Override
@@ -124,7 +126,18 @@ public class NewsDetailActivity extends AppCompatActivity {
                 changeText(realSize);
             }
         });
-        builder.show();
+
+        // false: 按对话框以外的地方不起作用,按返回键也不起作用; true: 默认, 都起作用
+        // builder.setCancelable(false);
+
+        // builder.show() 返回一个dialog
+        AlertDialog dialog = builder.show();
+
+        // false: 按对话框以外的地方不起作用,按返回键起作用
+        dialog.setCanceledOnTouchOutside(false);
+
+        // false: 按对话框以外的地方不起作用,按返回键也不起作用
+        // dialog.setCancelable(false);
     }
 
     private void changeText(int realSize) {
