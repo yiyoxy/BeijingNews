@@ -1,18 +1,14 @@
 package cn.tron.beijingnews.detailpager;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.xutils.common.Callback;
@@ -24,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.adapter.PhotosMenuDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
@@ -37,14 +34,18 @@ import cn.tron.beijingnews.utils.Constants;
 
 public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
-    @BindView(R.id.listview)
+   /* @BindView(R.id.listview)
     ListView listview;
     @BindView(R.id.gridview)
-    GridView gridview;
+    GridView gridview;*/
+
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
 
     private final NewsCenterBean.DataBean dataBean;
     private String url;
     private List<PhotosMenuBean.DataBean.NewsBean> news;
+
     private PhotosMenuDetailPagerAdapter adapter;
 
     public PhotosMenuDetailPager(Context mContext, NewsCenterBean.DataBean dataBean) {
@@ -107,9 +108,16 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
         if (news != null && news.size() > 0) {
 
-            // 设置listview的适配器
+           /* // 设置listview的适配器
             adapter = new PhotosMenuDetailPagerAdapter();
-            listview.setAdapter(adapter);
+            listview.setAdapter(adapter);*/
+
+            // 设置recyclerview的适配器
+            adapter = new PhotosMenuDetailPagerAdapter(mContext, photosBean.getData().getNews());
+            recyclerview.setAdapter(adapter);
+
+            // 设置布局管理器
+            recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
         } else {
             Toast.makeText(mContext, "没有请求到数据", Toast.LENGTH_SHORT).show();
@@ -121,7 +129,31 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
     // 切换listview和gridview的方法
     public void switchListGrid(ImageButton ib_switch) {
-        if(isShowListView) {
+        if (isShowListView) {
+            // 则显示GridView
+            recyclerview.setLayoutManager(new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false));
+
+            //  按钮->ListView , 注意是setImageResource, 不是setBackgroundResource
+            ib_switch.setImageResource(R.drawable.icon_pic_list_type);
+
+            isShowListView = false;
+        } else {
+            // 则显示ListView
+            recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+
+            // 按钮->GridView
+            ib_switch.setImageResource(R.drawable.icon_pic_grid_type);
+
+            isShowListView = true;
+        }
+    }
+
+   /* // false->不显示; true->显示
+    private boolean isShowListView = true;
+
+    // 切换listview和gridview的方法
+    public void switchListGrid(ImageButton ib_switch) {
+        if (isShowListView) {
             // 则显示GridView
             gridview.setAdapter(adapter);
             listview.setVisibility(View.GONE);
@@ -192,5 +224,5 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         ViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
-    }
+    }*/
 }

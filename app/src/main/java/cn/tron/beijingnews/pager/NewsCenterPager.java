@@ -155,8 +155,10 @@ public class NewsCenterPager extends BasePager {
             ib_switch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     // 获取组图页面的实例
                     PhotosMenuDetailPager photosMenuDetailPager = (PhotosMenuDetailPager) menuDetailBasePagers.get(2);
+
                     // 调用切换的方法
                     photosMenuDetailPager.switchListGrid(ib_switch);
                 }
