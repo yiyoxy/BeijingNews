@@ -4,12 +4,9 @@ import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
@@ -92,22 +89,22 @@ public class TopicMenuDetailPager extends MenuDetailBasePager {
         //注意以后监听页面的变化 ，TabPageIndicator监听页面的变化
         viewpager.addOnPageChangeListener(new MyOnPageChangeListener());
 
-        //自定义的TabLayout效果
+       /* //自定义的TabLayout效果
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(getTabView(i));
-        }
+        }*/
 
     }
 
-    public View getTabView(int position){
+   /* public View getTabView(int position){
         View view = LayoutInflater.from(mContext).inflate(R.layout.tab_item, null);
         TextView tv= (TextView) view.findViewById(R.id.textView);
         tv.setText(childrenData.get(position).getTitle());
         ImageView img = (ImageView) view.findViewById(R.id.imageView);
         img.setImageResource(R.drawable.dot_focus);
         return view;
-    }
+    }*/
 
     class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
