@@ -1,6 +1,7 @@
 package cn.tron.beijingnews.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tron.beijingnews.R;
+import cn.tron.beijingnews.activity.PicassoSampleActivity;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
 import cn.tron.beijingnews.utils.Constants;
 
@@ -24,8 +26,8 @@ import cn.tron.beijingnews.utils.Constants;
 
 public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMenuDetailPagerAdapter.ViewHolder> {
 
-    private final List<PhotosMenuBean.DataBean.NewsBean> news;
-    private final Context mContext;
+    private List<PhotosMenuBean.DataBean.NewsBean> news;
+    private Context mContext;
 
     public PhotosMenuDetailPagerAdapter(Context mContext, List<PhotosMenuBean.DataBean.NewsBean> news) {
         this.mContext = mContext;
@@ -60,7 +62,7 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         return news.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.iv_icon)
         ImageView ivIcon;
@@ -70,7 +72,25 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
+            // 设置点击事件
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, PicassoSampleActivity.class);
+                    /**
+                     * 传入图片地址
+                     * PhotosMenuBean.DataBean.NewsBean newsBean = news.get(getLayoutPosition());
+                     * String largeimageUrl = newsBean.getLargeimage();
+                     */
+                    intent.putExtra("url", Constants.BASE_URL + news.get(getLayoutPosition()).getLargeimage());
+
+                    mContext.startActivity(intent);
+                }
+            });
+
         }
+
     }
 
 }
