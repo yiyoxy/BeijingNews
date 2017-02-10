@@ -172,7 +172,11 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
             recyclerview.setAdapter(adapter);
 
             // 设置布局管理器
-            recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+            if(isShowListView) {
+                recyclerview.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+            } else {
+                recyclerview.setLayoutManager(new GridLayoutManager(mContext, 2, LinearLayoutManager.VERTICAL, false));
+            }
 
         } else {
             Toast.makeText(mContext, "没有请求到数据", Toast.LENGTH_SHORT).show();
