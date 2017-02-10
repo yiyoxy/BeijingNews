@@ -29,8 +29,6 @@ import cn.tron.beijingnews.bean.PhotosMenuBean;
 
 public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMenuDetailPagerAdapter.ViewHolder> {
 
-    private final RecyclerView recyclerview;
-
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -39,12 +37,15 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
                 case NetCacheUtils.SUCCESS :
                     int position = msg.arg1;
                     Bitmap bitmap = (Bitmap) msg.obj;
+                    Log.e("TAG","接收到成功的消息" + ",位置:" + position + "bitmap:" + bitmap);
 
                     if(recyclerview.isShown()) {
-                        ImageView imageView = (ImageView) recyclerview.findViewWithTag(position);
-                        if(imageView != null && bitmap != null) {
+                        ImageView ivIcon = (ImageView) recyclerview.findViewWithTag(position);
+                        Log.e("TAG", "position=======" + position + ", ivIcon==" + recyclerview.findViewWithTag(position));
+
+                        if(ivIcon != null && bitmap != null) {
                             Log.e("TAG","网络缓存图片显示成功"+position);
-                            imageView.setImageBitmap(bitmap);
+                            ivIcon.setImageBitmap(bitmap);
                         }
                     }
                     break;
@@ -55,6 +56,8 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
             }
         }
     };
+
+    private final RecyclerView recyclerview;
 
     private List<PhotosMenuBean.DataBean.NewsBean> news;
     private Context mContext;
@@ -82,8 +85,11 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
 
         // 根据位置得到数据
         PhotosMenuBean.DataBean.NewsBean newsBean = news.get(position);
-        String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
 
+        // 设置标题
+        holder.tvTitle.setText(newsBean.getTitle());
+
+        String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
 //        // 1.使用Glide请求图片
 //        Glide.with(mContext).load(imageRUrl)
 //                .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -92,8 +98,7 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
 //                .into(holder.ivIcon);
 
         // 2.自定义三级缓存请求图片
-        // 设置标识
-        holder.ivIcon.setTag(position);
+        holder.ivIcon.setTag(position);  // 设置标识
 
         Bitmap bitmap = bitmapCacheUtils.getBitmapFromUrl(imageRUrl, position);
 
@@ -102,8 +107,6 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
             holder.ivIcon.setImageBitmap(bitmap);
         }
 
-        // 设置标题
-        holder.tvTitle.setText(newsBean.getTitle());
     }
 
     @Override
@@ -117,6 +120,7 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         ImageView ivIcon;
         @BindView(R.id.tv_title)
         TextView tvTitle;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

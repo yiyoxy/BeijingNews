@@ -60,6 +60,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
     @Override
     public View initView() {
+        // 图组详情页面的视图
         View view = View.inflate(mContext, R.layout.photos_menu_detail_pager, null);
 
         // 注入view中,别忘记

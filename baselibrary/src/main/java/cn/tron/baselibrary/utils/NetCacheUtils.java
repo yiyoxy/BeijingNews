@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +41,7 @@ public class NetCacheUtils {
     // 使用子线程去请求网络，把图片抓取起来，在发给主线程显示
     public void getBitmapFromNet(String imageRUrl, int position) {
         // new Thread(new InternalRunnable(imageRUrl, position)).start();
-
+        // 每进来一次创建一个线程请求一张图片
         executorService.execute(new InternalRunnable(imageRUrl, position));
     }
 
@@ -62,8 +63,8 @@ public class NetCacheUtils {
             try {
                 connection = (HttpURLConnection) new URL(imageUrl).openConnection();
                 connection.setRequestMethod("GET"); // 不能小写
-                connection.setConnectTimeout(3000); //连接超时
-                connection.setReadTimeout(3000); //读取超时
+                connection.setConnectTimeout(5000); //连接超时
+                connection.setReadTimeout(5000); //读取超时
                 connection.connect();
 
                 int responseCode = connection.getResponseCode();
@@ -83,7 +84,7 @@ public class NetCacheUtils {
                     msg.arg1 = position;
                     msg.obj = bitmap;
                     handler.sendMessage(msg);
-
+                    Log.e("TAG", "网络缓存--发送成功的消息" + ",位置:" + msg.arg1 + ",bitmap:" + msg.obj);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -93,7 +94,7 @@ public class NetCacheUtils {
                 msg.arg1 = position;
                 handler.sendMessage(msg);
             } finally {
-                if(connection != null) {
+                if (connection != null) {
                     // 断开连接
                     connection.disconnect();
                 }
