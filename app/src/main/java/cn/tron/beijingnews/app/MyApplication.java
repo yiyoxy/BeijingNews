@@ -6,6 +6,7 @@ import org.xutils.BuildConfig;
 import org.xutils.x;
 
 import cn.jpush.android.api.JPushInterface;
+import cn.sharesdk.framework.ShareSDK;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -21,5 +22,8 @@ public class MyApplication extends Application {
 
         JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);     		// 初始化 JPush
+
+        // 初始化ShareSDK
+        ShareSDK.initSDK(this);
     }
 }
