@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.tron.baselibrary.utils.BitmapCacheUtils;
 import cn.tron.baselibrary.utils.Constants;
+import cn.tron.baselibrary.utils.NetCacheUtils;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.PicassoSampleActivity;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
@@ -26,15 +29,44 @@ import cn.tron.beijingnews.bean.PhotosMenuBean;
 
 public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMenuDetailPagerAdapter.ViewHolder> {
 
+    private final RecyclerView recyclerview;
+
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case NetCacheUtils.SUCCESS :
+                    int position = msg.arg1;
+                    Bitmap bitmap = (Bitmap) msg.obj;
+
+                    if(recyclerview.isShown()) {
+                        ImageView imageView = (ImageView) recyclerview.findViewWithTag(position);
+                        if(imageView != null && bitmap != null) {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    }
+                    Log.e("TAG_Cache", "图片成功==" + position);
+                    break;
+                case NetCacheUtils.FAILURE:
+                    position = msg.arg1;
+                    Log.e("TAG_Cache", "图片失败==" + position);
+                    break;
+            }
+        }
+    };
+
     private List<PhotosMenuBean.DataBean.NewsBean> news;
     private Context mContext;
 
     // 三级缓存工具类
     private BitmapCacheUtils bitmapCacheUtils;
 
-    public PhotosMenuDetailPagerAdapter(Context mContext, List<PhotosMenuBean.DataBean.NewsBean> news, Handler handler) {
+    public PhotosMenuDetailPagerAdapter(Context mContext, List<PhotosMenuBean.DataBean.NewsBean> news, RecyclerView recyclerview) {
         this.mContext = mContext;
         this.news = news;
+
+        this.recyclerview = recyclerview;
 
         // 初始化三级缓存工具类
         bitmapCacheUtils = new BitmapCacheUtils(handler); // 在构造方法中传递handler
