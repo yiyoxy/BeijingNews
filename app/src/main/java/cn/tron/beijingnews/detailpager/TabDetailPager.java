@@ -213,6 +213,11 @@ public class TabDetailPager extends MenuDetailBasePager {
         url = Constants.BASE_URL + childrenBean.getUrl();
         Log.e("TAG", "TabDetailPager--url==" + url);
 
+        // 软件数据缓存-得到缓存文本
+        String savaJson = CacheUtils.getString(mContext, url);
+        if(!TextUtils.isEmpty(savaJson)) {
+            processData(savaJson);
+        }
         // 设置数据
         getDataFromNet();
     }
@@ -223,6 +228,9 @@ public class TabDetailPager extends MenuDetailBasePager {
             @Override
             public void onSuccess(String result) {
                 Log.e("TAG", "请求数据成功==TabDetailPager==" + childrenBean.getTitle());
+
+                // 软件数据缓存-缓存文本
+                CacheUtils.putString(mContext, url, result);
 
                 processData(result);
 
