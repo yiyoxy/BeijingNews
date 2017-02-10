@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
     android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/item_photos_selector"
-        android:gravity="center"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/iv_icon"
-            android:layout_width="320dp"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_gravity="center_horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
             android:scaleType="centerCrop"
             android:src="@drawable/home_scroll_default" />
 
@@ -35,4 +35,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
