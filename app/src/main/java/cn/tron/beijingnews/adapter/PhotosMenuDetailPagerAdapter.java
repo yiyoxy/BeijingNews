@@ -90,12 +90,14 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         holder.tvTitle.setText(newsBean.getTitle());
 
         String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
-//        // 1.使用Glide请求图片
-//        Glide.with(mContext).load(imageRUrl)
-//                .diskCacheStrategy(DiskCacheStrategy.ALL)
-//                .placeholder(R.drawable.news_pic_default) // 设置默认图片
-//                .error(R.drawable.news_pic_default) // 请求失败的图片
-//                .into(holder.ivIcon);
+
+        /*// 1.使用Glide请求图片
+        Glide.with(mContext).load(imageRUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.news_pic_default) // 设置默认图片
+                .error(R.drawable.news_pic_default) // 请求失败的图片
+                .into(holder.ivIcon);
+        Log.e("TAG", "Glide加载图片==自带三级缓存");*/
 
         // 2.自定义三级缓存请求图片
         holder.ivIcon.setTag(position);  // 设置标识
