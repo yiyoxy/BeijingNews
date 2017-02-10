@@ -2,14 +2,13 @@ package cn.tron.beijingnews.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -19,6 +18,7 @@ import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.PicassoSampleActivity;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
+import cn.tron.beijingnews.utils.BitmapCacheUtils;
 
 /**
  * Created by ZZB27 on 2017.2.9.0009.
@@ -29,9 +29,15 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
     private List<PhotosMenuBean.DataBean.NewsBean> news;
     private Context mContext;
 
-    public PhotosMenuDetailPagerAdapter(Context mContext, List<PhotosMenuBean.DataBean.NewsBean> news) {
+    // 三级缓存工具类
+    private BitmapCacheUtils bitmapCacheUtils;
+
+    public PhotosMenuDetailPagerAdapter(Context mContext, List<PhotosMenuBean.DataBean.NewsBean> news, Handler handler) {
         this.mContext = mContext;
         this.news = news;
+
+        // 初始化三级缓存工具类
+        bitmapCacheUtils = new BitmapCacheUtils(handler); // 在构造方法中传递handler
     }
 
     @Override
@@ -46,12 +52,21 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         PhotosMenuBean.DataBean.NewsBean newsBean = news.get(position);
         String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
 
-        // Glide加载图片
+        /*// 1.使用Glide请求图片
         Glide.with(mContext).load(imageRUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.news_pic_default) // 设置默认图片
                 .error(R.drawable.news_pic_default) // 请求失败的图片
-                .into(holder.ivIcon);
+                .into(holder.ivIcon);*/
+
+        // 2.自定义三级缓存请求图片
+        holder.ivIcon.setTag(position);
+
+        Bitmap bitmap = bitmapCacheUtils.getBitmapFromUrl(imageRUrl, position);
+        if(bitmap != null) {
+            // 当前bitmap不等于null,内容来自内存或者本地
+            holder.ivIcon.setImageBitmap(bitmap);
+        }
 
         // 设置标题
         holder.tvTitle.setText(newsBean.getTitle());

@@ -1,7 +1,10 @@
 package cn.tron.beijingnews.detailpager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -27,6 +31,7 @@ import cn.tron.beijingnews.adapter.PhotosMenuDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
+import cn.tron.beijingnews.utils.NetCacheUtils;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -53,6 +58,31 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
     private PhotosMenuDetailPagerAdapter adapter;
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case NetCacheUtils.SUCCESS :
+                    int position = msg.arg1;
+                    Bitmap bitmap = (Bitmap) msg.obj;
+
+                    if(recyclerview.isShown()) {
+                        ImageView imageView = (ImageView) recyclerview.findViewWithTag(position);
+                        if(imageView != null && bitmap != null) {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    }
+                    Log.e("TAG_Cache", "图片成功==" + position);
+                    break;
+                case NetCacheUtils.FAILURE:
+                    position = msg.arg1;
+                    Log.e("TAG_Cache", "图片失败==" + position);
+                    break;
+            }
+        }
+    };
+
     public PhotosMenuDetailPager(Context mContext, NewsCenterBean.DataBean dataBean) {
         super(mContext);
         this.dataBean = dataBean;
@@ -69,7 +99,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         swipeRefreshLayout.setDistanceToTriggerSync(100);
 
         // 设置不同颜色, 可以设置多个颜色
-        swipeRefreshLayout.setColorSchemeColors(Color.BLUE, Color.RED, Color.GREEN, Color.BLACK, Color.WHITE, Color.YELLOW);
+        swipeRefreshLayout.setColorSchemeColors( Color.RED, Color.GREEN, Color.BLUE);
 
         // 设置背景颜色
         swipeRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.holo_blue_bright);
@@ -106,6 +136,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
 
                 //隐藏刷新按钮 : Whether or not the view should show refresh progress
                 swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(mContext, "刷新完成", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -136,8 +167,8 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
             adapter = new PhotosMenuDetailPagerAdapter();
             listview.setAdapter(adapter);*/
 
-            // 设置recyclerview的适配器
-            adapter = new PhotosMenuDetailPagerAdapter(mContext, photosBean.getData().getNews());
+            // 设置recyclerview的适配器(传递handler到适配器)
+            adapter = new PhotosMenuDetailPagerAdapter(mContext, photosBean.getData().getNews(), handler);
             recyclerview.setAdapter(adapter);
 
             // 设置布局管理器
@@ -151,7 +182,7 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
     // false->不显示; true->显示
     private boolean isShowListView = true;
 
-    // 切换listview和gridview的方法
+    // 切换list和grid的方法
     public void switchListGrid(ImageButton ib_switch) {
         if (isShowListView) {
             // 则显示GridView
