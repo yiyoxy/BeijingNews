@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by ZZB27 on 2017.2.10.0010.
@@ -26,13 +28,20 @@ public class NetCacheUtils {
     // 本质上的实例在PhotosMenuDetailPager
     private final Handler handler;
 
+    // 线程池类
+    private ExecutorService executorService;
+
     public NetCacheUtils(Handler handler) {
         this.handler = handler;
+
+        executorService = Executors.newFixedThreadPool(10);
     }
 
     // 使用子线程去请求网络，把图片抓取起来，在发给主线程显示
     public void getBitmapFromNet(String imageRUrl, int position) {
-        new Thread(new InternalRunnable(imageRUrl, position)).start();
+        // new Thread(new InternalRunnable(imageRUrl, position)).start();
+
+        executorService.execute(new InternalRunnable(imageRUrl, position));
     }
 
     class InternalRunnable implements Runnable {
