@@ -1,3 +1,3 @@
-include ':app', ':baselibrary', 'slidingmenu_library'
+include ':app', ':baselibrary', 'slidingmenu_library', 'image_loader_library'
 include ':viewpager_indicator_library'
 include ':pull_to_refresh_library'

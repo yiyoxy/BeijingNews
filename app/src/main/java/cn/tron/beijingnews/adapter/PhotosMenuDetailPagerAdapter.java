@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -65,6 +69,8 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
     // 三级缓存工具类
     private BitmapCacheUtils bitmapCacheUtils;
 
+    private DisplayImageOptions options;
+
     public PhotosMenuDetailPagerAdapter(Context mContext, List<PhotosMenuBean.DataBean.NewsBean> news, RecyclerView recyclerview) {
         this.mContext = mContext;
         this.news = news;
@@ -73,6 +79,19 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
 
         // 初始化三级缓存工具类
         bitmapCacheUtils = new BitmapCacheUtils(handler); // 在构造方法中传递handler
+
+        // 初始化DisplayImageOptions
+        options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.home_scroll_default)
+                .showImageForEmptyUri(R.drawable.home_scroll_default)
+                .showImageOnFail(R.drawable.home_scroll_default)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .displayer(new RoundedBitmapDisplayer(15)) //设置矩形圆角图片
+                .build();
+
     }
 
     @Override
@@ -99,7 +118,7 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
                 .into(holder.ivIcon);
         Log.e("TAG", "Glide加载图片==自带三级缓存");*/
 
-        // 2.自定义三级缓存请求图片
+       /* // 2.自定义三级缓存请求图片
         holder.ivIcon.setTag(position);  // 设置标识
 
         Bitmap bitmap = bitmapCacheUtils.getBitmapFromUrl(imageRUrl, position);
@@ -107,7 +126,10 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         if(bitmap != null) {
             // 当前bitmap不等于null,内容来自内存或者本地
             holder.ivIcon.setImageBitmap(bitmap);
-        }
+        }*/
+
+        // 3.使用ImageLoader加载图片
+        ImageLoader.getInstance().displayImage(imageRUrl, holder.ivIcon, options);
 
     }
 
