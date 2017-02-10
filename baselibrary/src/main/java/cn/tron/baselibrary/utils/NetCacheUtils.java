@@ -62,25 +62,28 @@ public class NetCacheUtils {
             try {
                 connection = (HttpURLConnection) new URL(imageUrl).openConnection();
                 connection.setRequestMethod("GET"); // 不能小写
-                connection.setConnectTimeout(5000); //连接超时5s
-                connection.setReadTimeout(5000); //读取超时
-                connection.connect(); //可以不调用
+                connection.setConnectTimeout(3000); //连接超时
+                connection.setReadTimeout(3000); //读取超时
+                connection.connect();
 
                 int responseCode = connection.getResponseCode();
                 if (responseCode == 200) {
+                    // 请求图片成功
                     InputStream inputStream = connection.getInputStream();
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
-                    // 请求成功,发送到主线程显示
-                    Message msg = handler.obtainMessage();
+                    // 向本地存一份
+
+                    // 向内存中存一份
+
+                    // 发送到主线程显示在控件上
+                    // Message msg = handler.obtainMessage();
+                    Message msg = Message.obtain();
                     msg.what = SUCCESS;
                     msg.arg1 = position;
                     msg.obj = bitmap;
                     handler.sendMessage(msg);
 
-                    // 向内存中存一份
-
-                    // 向本地存一份
                 }
             } catch (IOException e) {
                 e.printStackTrace();

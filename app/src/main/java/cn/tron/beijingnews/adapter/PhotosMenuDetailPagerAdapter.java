@@ -43,14 +43,14 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
                     if(recyclerview.isShown()) {
                         ImageView imageView = (ImageView) recyclerview.findViewWithTag(position);
                         if(imageView != null && bitmap != null) {
+                            Log.e("TAG","网络缓存图片显示成功"+position);
                             imageView.setImageBitmap(bitmap);
                         }
                     }
-                    Log.e("TAG_Cache", "图片成功==" + position);
                     break;
                 case NetCacheUtils.FAILURE:
                     position = msg.arg1;
-                    Log.e("TAG_Cache", "图片失败==" + position);
+                    Log.e("TAG","网络缓存失败=="+position);
                     break;
             }
         }
@@ -84,17 +84,19 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         PhotosMenuBean.DataBean.NewsBean newsBean = news.get(position);
         String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
 
-        /*// 1.使用Glide请求图片
-        Glide.with(mContext).load(imageRUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.news_pic_default) // 设置默认图片
-                .error(R.drawable.news_pic_default) // 请求失败的图片
-                .into(holder.ivIcon);*/
+//        // 1.使用Glide请求图片
+//        Glide.with(mContext).load(imageRUrl)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .placeholder(R.drawable.news_pic_default) // 设置默认图片
+//                .error(R.drawable.news_pic_default) // 请求失败的图片
+//                .into(holder.ivIcon);
 
         // 2.自定义三级缓存请求图片
+        // 设置标识
         holder.ivIcon.setTag(position);
 
         Bitmap bitmap = bitmapCacheUtils.getBitmapFromUrl(imageRUrl, position);
+
         if(bitmap != null) {
             // 当前bitmap不等于null,内容来自内存或者本地
             holder.ivIcon.setImageBitmap(bitmap);
