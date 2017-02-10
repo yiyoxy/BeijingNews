@@ -6,6 +6,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.tron.baselibrary.utils.CacheUtils;
 import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.adapter.PhotosMenuDetailPagerAdapter;
@@ -93,15 +95,24 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
         url = Constants.BASE_URL + dataBean.getUrl();
         Log.e("TAG", "组图url==" + url);
 
+        // 软件数据缓存-得到缓存文本
+        String savaJson = CacheUtils.getString(mContext, url);
+        if(!TextUtils.isEmpty(savaJson)) {
+            processData(savaJson);
+        }
+
         getDataFromNet(url);
     }
 
-    private void getDataFromNet(String url) {
+    private void getDataFromNet(final String url) {
         RequestParams params = new RequestParams(url);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Log.e("TAG", "请求成功==" + result);
+
+                // 软件数据缓存-缓存文本到本地
+                CacheUtils.putString(mContext, url, result);
 
                 processData(result);
 
