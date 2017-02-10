@@ -47,9 +47,24 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
 
+            // 用户点击的时候的处理
+            String json = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(json);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String newsurl = jsonObject.optString("url");
+            if (TextUtils.isEmpty(newsurl)) {
+                newsurl = "http://www.baidu.com";
+            }
+
             // 打开自定义的Ativity->点击打开新闻详情页面
             Intent i = new Intent(context, NewsDetailActivity.class);
-            i.putExtras(bundle);
+
+            i.putExtra("url", newsurl);
+
             //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(i);
