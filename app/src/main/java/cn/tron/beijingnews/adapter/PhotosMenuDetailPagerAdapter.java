@@ -14,11 +14,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.tron.baselibrary.utils.BitmapCacheUtils;
 import cn.tron.baselibrary.utils.Constants;
 import cn.tron.beijingnews.R;
 import cn.tron.beijingnews.activity.PicassoSampleActivity;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
-import cn.tron.beijingnews.utils.BitmapCacheUtils;
 
 /**
  * Created by ZZB27 on 2017.2.9.0009.
@@ -83,7 +83,6 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         ImageView ivIcon;
         @BindView(R.id.tv_title)
         TextView tvTitle;
-
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

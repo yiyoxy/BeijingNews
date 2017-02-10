@@ -1,4 +1,4 @@
-package cn.tron.beijingnews.utils;
+package cn.tron.baselibrary.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
