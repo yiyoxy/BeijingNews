@@ -21,6 +21,12 @@ import java.util.concurrent.Executors;
 
 public class NetCacheUtils {
 
+    // 本地缓存工具类
+    private final LocalCacheUtils localCacheutils;
+
+    // 内存缓存工具类
+    private final MemoryCacheUtils memoryCacheUtils;
+
     // 请求图片成功
     public static final int SUCCESS = 1;
     // 请求图片失败
@@ -32,10 +38,12 @@ public class NetCacheUtils {
     // 线程池类
     private ExecutorService executorService;
 
-    public NetCacheUtils(Handler handler) {
+    public NetCacheUtils(Handler handler, LocalCacheUtils localCacheutils, MemoryCacheUtils memoryCacheUtils) {
         this.handler = handler;
-
         executorService = Executors.newFixedThreadPool(10);
+
+        this.localCacheutils = localCacheutils;
+        this.memoryCacheUtils = memoryCacheUtils;
     }
 
     // 使用子线程去请求网络，把图片抓取起来，在发给主线程显示
@@ -74,8 +82,10 @@ public class NetCacheUtils {
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
                     // 向本地存一份
+                    localCacheutils.putBitmap(imageUrl,bitmap);
 
                     // 向内存中存一份
+                    memoryCacheUtils.putBitmap(imageUrl,bitmap);
 
                     // 发送到主线程显示在控件上
                     // Message msg = handler.obtainMessage();

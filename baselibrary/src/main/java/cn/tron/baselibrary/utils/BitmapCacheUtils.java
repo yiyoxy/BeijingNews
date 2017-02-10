@@ -2,6 +2,7 @@ package cn.tron.baselibrary.utils;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 
 /**
  * Created by ZZB27 on 2017.2.10.0010.
@@ -18,21 +19,44 @@ import android.os.Handler;
 
 public class BitmapCacheUtils {
 
+    //本地缓存工具类
+    private LocalCacheUtils localCacheutils;
+
+    //内存缓存工具类
+    private MemoryCacheUtils memoryCacheUtils;
+
     // 网络缓存工具类
     private NetCacheUtils netCacheUtils;
 
     public BitmapCacheUtils(Handler handler) {
+        memoryCacheUtils = new MemoryCacheUtils();
+
+        localCacheutils = new LocalCacheUtils(memoryCacheUtils);
+
         // 初始化网络缓存工具类, 传递handler, 联网要用到handler, 其他地方用不到
-        netCacheUtils = new NetCacheUtils(handler);
+        netCacheUtils = new NetCacheUtils(handler, localCacheutils, memoryCacheUtils);
     }
 
     public Bitmap getBitmapFromUrl(String imageRUrl, int position) {
+        // 1.从内存中取得图片
+        if (memoryCacheUtils != null) {
+            Bitmap bitmap = memoryCacheUtils.getBitmapFromMemory(imageRUrl);
+            if (bitmap != null) {
+                Log.e("TAG", "内存缓存图片成功==" + position);
+                return bitmap;
+            }
+        }
 
-        // 从内存中取得图片
+        // 2.从本地文件中取得图片
+        if (localCacheutils != null) {
+            Bitmap bitmap = localCacheutils.getBitmapFromLocal(imageRUrl);
+            if (bitmap != null) {
+                Log.e("TAG", "本地缓存图片成功==" + position);
+                return bitmap;
+            }
+        }
 
-        // 从本地文件中取得图片
-
-        // 请求网络图片, 获取图片, 显示到控件上
+        // 3.请求网络图片, 获取图片, 显示到控件上
         netCacheUtils.getBitmapFromNet(imageRUrl, position);
 
         return null;
