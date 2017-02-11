@@ -94,6 +94,19 @@ public class WelcomeActivity extends AppCompatActivity {
             }
             startActivity(intent);
             finish();
+
+            /**
+             * Activity之间的切换效果,从Android2.0开始在Activity增加了的一个方法:
+             *
+             * public void overridePendingTransition (int enterAnim, int exitAnim)
+             * enterAnim: 定义Activity进入屏幕时的动画
+             * exitAnim: 定义Activity退出屏幕时的动画
+             *
+             * overridePendingTransition()方法必须在startActivity()或者finish()方法的后面。
+             *
+             */
+            overridePendingTransition(0, 0);
+
         }
 
         // 当动画重复播放的时候回调
