@@ -44,6 +44,9 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     @BindView(R.id.ib_news_menu_detail_next_tab)
     ImageButton ibNewsMenuDetailNextTab;
 
+    // tab页面的位置
+    private int prePosition;
+
     public NewsMenuDetailPager(Context mContext, NewsCenterBean.DataBean dataBean) {
         super(mContext);
         this.childrenData = dataBean.getChildren();  // 12条
@@ -78,6 +81,9 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
 
         //监听页面的变化用TabPageIndicator
         indicator.setOnPageChangeListener(new MyOnPageChangeListener());
+
+        // 切换到记录的位置
+        indicator.setCurrentItem(prePosition);
     }
 
     class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -88,6 +94,10 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
 
         @Override
         public void onPageSelected(int position) {
+
+            // 修改页面不能切换的BUG,记录当前的位置
+            prePosition = viewpager.getCurrentItem();
+
             MainActivity mainActivity = (MainActivity) mContext;
             if (position == 0) {
                 // 可以把左侧菜单拖拽出来

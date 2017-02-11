@@ -46,6 +46,8 @@ import cn.tron.beijingnews.view.HorizontalScrollViewPager;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
+ *
+ * 顶部轮播页面
  */
 public class TabDetailPager extends MenuDetailBasePager {
 
