@@ -117,7 +117,16 @@ public class NewsMenuDetailPager extends MenuDetailBasePager {
     // 点击切换到下一个页签
     @OnClick(R.id.ib_news_menu_detail_next_tab)
     public void onClick() {
-        indicator.setCurrentItem(viewpager.getCurrentItem() + 1);
+
+        // 防止最后一个下划线溢出
+        // 下一个页签的位置
+        int nextPosition = viewpager.getCurrentItem() + 1;
+        // 先判断再切换
+        if (nextPosition <= childrenData.size() - 1) {
+            //切换到下一个页面
+            indicator.setCurrentItem(nextPosition);
+        }
+
     }
 
     private class MyPagerAdapter extends PagerAdapter {
