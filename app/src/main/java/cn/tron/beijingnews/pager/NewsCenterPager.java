@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -135,37 +136,43 @@ public class NewsCenterPager extends BasePager {
     // 根据位置切换到不同的详情页面
     public void switchPager(int preposition) {
 
-        // 设置标题
-        tv_title.setText(dataBeanList.get(preposition).getTitle());
+        if(preposition < menuDetailBasePagers.size()) {
+            // 设置标题
+            tv_title.setText(dataBeanList.get(preposition).getTitle());
 
-        MenuDetailBasePager menuDetailBasePager = menuDetailBasePagers.get(preposition);
-        menuDetailBasePager.initData();
+            MenuDetailBasePager menuDetailBasePager = menuDetailBasePagers.get(preposition);
+            menuDetailBasePager.initData();
 
-        // 视图
-        View rootView = menuDetailBasePager.rootView;
+            // 视图
+            View rootView = menuDetailBasePager.rootView;
 
-        // 移除之前的
-        fl_main.removeAllViews();
+            // 移除之前的
+            fl_main.removeAllViews();
 
-        fl_main.addView(rootView);
+            fl_main.addView(rootView);
 
-        // 显示切换视图的ImageButton
-        if (preposition == 2) {
-            ib_switch.setVisibility(View.VISIBLE);
-            ib_switch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            // 显示切换视图的ImageButton
+            if (preposition == 2) {
+                ib_switch.setVisibility(View.VISIBLE);
+                ib_switch.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    // 获取组图页面的实例
-                    PhotosMenuDetailPager photosMenuDetailPager = (PhotosMenuDetailPager) menuDetailBasePagers.get(2);
+                        // 获取组图页面的实例
+                        PhotosMenuDetailPager photosMenuDetailPager = (PhotosMenuDetailPager) menuDetailBasePagers.get(2);
 
-                    // 调用切换的方法
-                    photosMenuDetailPager.switchListGrid(ib_switch);
-                }
-            });
+                        // 调用切换的方法
+                        photosMenuDetailPager.switchListGrid(ib_switch);
+                    }
+                });
+            } else {
+                ib_switch.setVisibility(View.GONE);
+            }
+
         } else {
-            ib_switch.setVisibility(View.GONE);
+            Toast.makeText(mContext, "该页面暂时未开通!", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     /**
