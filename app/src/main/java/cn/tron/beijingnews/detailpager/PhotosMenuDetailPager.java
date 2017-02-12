@@ -13,10 +13,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.util.List;
 
@@ -29,6 +27,7 @@ import cn.tron.beijingnews.adapter.PhotosMenuDetailPagerAdapter;
 import cn.tron.beijingnews.base.MenuDetailBasePager;
 import cn.tron.beijingnews.bean.NewsCenterBean;
 import cn.tron.beijingnews.bean.PhotosMenuBean;
+import okhttp3.Call;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -105,37 +104,65 @@ public class PhotosMenuDetailPager extends MenuDetailBasePager {
     }
 
     private void getDataFromNet(final String url) {
-        RequestParams params = new RequestParams(url);
-        x.http().get(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.e("TAG", "请求成功==" + result);
+//        RequestParams params = new RequestParams(url);
+//        x.http().get(params, new Callback.CommonCallback<String>() {
+//            @Override
+//            public void onSuccess(String result) {
+//                Log.e("TAG", "请求成功==" + result);
+//
+//                // 软件数据缓存-缓存文本到本地
+//                CacheUtils.putString(mContext, url, result);
+//
+//                processData(result);
+//
+//                //隐藏刷新按钮 : Whether or not the view should show refresh progress
+//                swipeRefreshLayout.setRefreshing(false);
+//                Toast.makeText(mContext, "刷新完成", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onError(Throwable ex, boolean isOnCallback) {
+//                Log.e("TAG", "请求失败==" + ex.getMessage());
+//            }
+//
+//            @Override
+//            public void onCancelled(CancelledException cex) {
+//                Log.e("TAG", "onCancelled==" + cex.getMessage());
+//            }
+//
+//            @Override
+//            public void onFinished() {
+//                Log.e("TAG", "onFinished==");
+//            }
+//        });
 
-                // 软件数据缓存-缓存文本到本地
-                CacheUtils.putString(mContext, url, result);
+        // 在项目中使用okhttp-utils请求文本
+        OkHttpUtils
+                .get()
+                .url(url)
+//                .addParams("username", "tron")
+//                .addParams("password", "123")
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("TAG", "okhttp-utils图组数据请求失败==" + e.getMessage());
+                    }
 
-                processData(result);
+                    @Override
+                    public void onResponse(String response, int id) {
+                        Log.e("TAG", "okhttp-utils图组数据请求成功==" + response);
 
-                //隐藏刷新按钮 : Whether or not the view should show refresh progress
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mContext, "刷新完成", Toast.LENGTH_SHORT).show();
-            }
+                        // 软件数据缓存-缓存文本到本地
+                        CacheUtils.putString(mContext, url, response);
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Log.e("TAG", "请求失败==" + ex.getMessage());
-            }
+                        processData(response);
 
-            @Override
-            public void onCancelled(CancelledException cex) {
-                Log.e("TAG", "onCancelled==" + cex.getMessage());
-            }
-
-            @Override
-            public void onFinished() {
-                Log.e("TAG", "onFinished==");
-            }
-        });
+                        //隐藏刷新按钮 : Whether or not the view should show refresh progress
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(mContext, "刷新完成", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void processData(String json) {
