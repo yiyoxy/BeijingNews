@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
+import cn.tron.beijingnews.CrashHandler;
 import okhttp3.OkHttpClient;
 
 /**
@@ -45,6 +46,10 @@ public class MyApplication extends Application {
          * 别忘了在AndroidManifest中设置。
          */
         initOkhttputils();
+
+        // 针对异常的捕捉要进行全局监控整个项目，所以要将其在Application中注册(也就是初始化)：
+        CrashHandler catchHandler = CrashHandler.getInstance();
+        catchHandler.init(getApplicationContext());
     }
 
     public static void initImageLoader(Context context) {
