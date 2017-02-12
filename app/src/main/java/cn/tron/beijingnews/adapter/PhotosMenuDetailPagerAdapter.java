@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.List;
@@ -110,15 +111,15 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
 
         String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
 
-        /*// 1.使用Glide请求图片
+        // 1.使用Glide请求图片
         Glide.with(mContext).load(imageRUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.news_pic_default) // 设置默认图片
                 .error(R.drawable.news_pic_default) // 请求失败的图片
                 .into(holder.ivIcon);
-        Log.e("TAG", "Glide加载图片==自带三级缓存");*/
+        Log.e("TAG", "Glide加载图片==自带三级缓存");
 
-       /* // 2.自定义三级缓存请求图片
+        /*// 2.自定义三级缓存请求图片
         holder.ivIcon.setTag(position);  // 设置标识
 
         Bitmap bitmap = bitmapCacheUtils.getBitmapFromUrl(imageRUrl, position);
@@ -128,8 +129,8 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
             holder.ivIcon.setImageBitmap(bitmap);
         }*/
 
-        // 3.使用ImageLoader加载图片
-        ImageLoader.getInstance().displayImage(imageRUrl, holder.ivIcon, options);
+        /*// 3.使用ImageLoader加载图片
+        ImageLoader.getInstance().displayImage(imageRUrl, holder.ivIcon, options);*/
 
     }
 

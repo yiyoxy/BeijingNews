@@ -7,12 +7,16 @@ import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.xutils.BuildConfig;
 import org.xutils.x;
 
+import java.util.concurrent.TimeUnit;
+
 import cn.jpush.android.api.JPushInterface;
 import cn.sharesdk.framework.ShareSDK;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by ZZB27 on 2017.2.6.0006.
@@ -34,6 +38,13 @@ public class MyApplication extends Application {
 
         // 初始化ImageLoader
         initImageLoader(this);
+
+        /**
+         * 默认情况下，将直接使用okhttp默认的配置生成OkhttpClient，
+         * 如果你有任何配置，记得在Application中调用initClient方法进行设置。
+         * 别忘了在AndroidManifest中设置。
+         */
+        initOkhttputils();
     }
 
     public static void initImageLoader(Context context) {
@@ -51,5 +62,16 @@ public class MyApplication extends Application {
 
         // Initialize ImageLoader with configuration.
         ImageLoader.getInstance().init(config.build());
+    }
+
+    private void initOkhttputils(){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new LoggerInterceptor("TAG"))
+                .connectTimeout(10000L, TimeUnit.MILLISECONDS)
+                .readTimeout(10000L, TimeUnit.MILLISECONDS)
+                //其他配置
+                .build();
+
+        OkHttpUtils.initClient(okHttpClient);
     }
 }
