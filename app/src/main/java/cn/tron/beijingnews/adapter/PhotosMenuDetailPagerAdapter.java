@@ -112,6 +112,12 @@ public class PhotosMenuDetailPagerAdapter extends RecyclerView.Adapter<PhotosMen
         String imageRUrl = Constants.BASE_URL + newsBean.getLargeimage(); // 高清图
 
         // 1.使用Glide请求图片
+        // diskCacheStrategy(DiskCacheStrategy strategy).设置缓存策略。
+        // DiskCacheStrategy.SOURCE：缓存原始数据，
+        // DiskCacheStrategy.RESULT：缓存变换(如缩放、裁剪等)后的资源数据，
+        // DiskCacheStrategy.NONE：什么都不缓存，
+        // DiskCacheStrategy.ALL：缓存SOURC和RESULT。
+        // 默认采用DiskCacheStrategy.RESULT策略，对于download only操作要使用DiskCacheStrategy.SOURCE。
         Glide.with(mContext).load(imageRUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.news_pic_default) // 设置默认图片
